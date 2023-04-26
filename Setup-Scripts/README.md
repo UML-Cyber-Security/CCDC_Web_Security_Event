@@ -1,0 +1,1 @@
+This is a place for the scripts used to setup and configure the (basic) infrastructure

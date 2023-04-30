@@ -1,4 +1,4 @@
-# Task 6 - Access Control Lists Walkthrough
+# Task 6 - Access Control Lists
 
 // Story
 * Now that our connection to the site is secure using Transport Layer Security (TLS) through the <PROXY's> proxy we would like 

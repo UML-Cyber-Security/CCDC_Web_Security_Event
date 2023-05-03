@@ -1,4 +1,6 @@
 # Task 4 - Firewall Modifications
+Now that out \<Nginx\> proxy is receiving, and forwarding the 
+
 
 // Story Premis - Why does the "employer" want this
 * Now that the proxy is serving requests, we would like to limit direct access to the server

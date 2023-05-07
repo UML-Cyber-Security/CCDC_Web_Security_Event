@@ -19,5 +19,15 @@ Access Control Lists (ACL) are structures, that we use to define as set of rules
 
 In this case we are going to define a ACL as a operation done by the proxy. What proxy we are using is yet to be decided, but two common proxies are HAproxy and Nginx.
 
+HAProxy is easier as we only need two (realy three) lines to implement the Access Control List
+```
+# Limit access to those listed IPs
+acl network_allowed src <ip1> <ip2>
+# Limit access when a path begins with a specific line
+acl restricted_page path_beg, url_dec -i /admin
 
-Since 
+# Block when above conditions are met (or in the case of network allowed not met)
+block if restricted_page !network_allowed
+```
+
+If we need to implement it using Nginx, then the thinking is the same. However the exact implementation will be different.

@@ -13,7 +13,7 @@ As with the previous tasks we found some old notes the former groups left.
 
 The primary challenge with this task is blocking off a port only to non-local systems. Because the proxy is hosted locally, we cannot just block off the port to all communications as we would then be unable to access the website through the proxy.
 
-With IPTables we can do this safely with two lines \<UNTESTED\>
+With IPTables we can do this safely with two lines \<UNTESTED\>. However more are needed if our web-server is a container.
 ```
 iptables -A INPUT --src 127.0.0.1 -J ACCEPT
 iptables -A INPUT -p tcp --dport 8080 DROP

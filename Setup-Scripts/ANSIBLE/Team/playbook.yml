@@ -1,4 +1,74 @@
 - name: BlueTeam_Initial_Setup
   hosts: blueteam
   tasks:
-    - 
+    block:
+      - name: Add Wireshark Repository
+        ansible.builtin.apt_repository:
+          repo: ppa:wireshark-dev/stable
+      - name: Update Repositories # Will this work on its own? Possibly!
+        ansible.builtin.apt:
+          update_cache: yes
+      - name: Install Sniffers
+        ansible.builtin.apt:
+          name: 
+          - wireshark
+          - tcpdump
+      - name: Install Nginx
+        ansible.builtin.apt:
+          name: nginx
+        notify:
+          - Stop Nginx
+      - name: Install XRDP
+        ansible.builtin.apt:
+          name: xrdp
+        notify:
+          - Restart rdp
+#          - Configure rdp
+      - name: Install Telnet
+        ansible.builtin.apt:
+          name: telnetd
+        notify:
+          - Start telnet
+      - name: user_create
+        ansible.builtin.shell: |
+          sudo useradd -m worker 
+          sudo useradd -m manager -G sudo
+          chpass "worker:ThisIsAGreatPassword" 
+          chpass "manager:WellThisIsGood"
+      - name: Docker
+        ansible.builtin.apt:
+          name: docker.io
+        notify:
+          - Docker Config
+          - Docker Web
+          - Docker Proxy
+
+
+handlers:
+  - name: Stop Nginx
+    ansible.builtin.systemd:
+      name: nginx
+      state: stopped
+#  - name: Configure rdp
+#    ansible.builtin.shell: 
+#      cmd: # Add desktop type to user homes.
+#    notify:
+#      - Restart rdp
+  - name: Restart rdp
+    ansible.builtin.systemd:
+      name: xrdp
+      state: restarted
+  - name: Start telnet
+    ansible.builtin.systemd:
+      name: inetd
+      state: started
+  - name: Docker Web
+    ansible.builtin.shell: 
+      cmd: docker pull nginx # REPLACE WITH WEB CONTAINER 
+  - name: Docker Proxy
+    ansible.builtin.shell: 
+      cmd: docker pull nginx
+  - name: User Config
+    ansible.builtin.shell: | 
+      usermod -aG manager docker
+    

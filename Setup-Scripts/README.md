@@ -16,7 +16,7 @@ The Infrastructure will be the following
 
 The Machine will need to have the following installed
 * Docker
-  * This would be done the method described on the docker website
+  * This would be done the method described on the docker website - or because we don't need much - the docker.io method 
 * Nginx (Or HAProxy)
   * This would be installed but not started
 * xrdp 

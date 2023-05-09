@@ -1,0 +1,4 @@
+- name: BlueTeam_Initial_Setup
+  hosts: blueteam
+  tasks:
+    - 

@@ -11,17 +11,19 @@ As with the previous tasks we found some old notes the former groups left.
 3. This system is implemented using Docker  
 ## Old Documentation
 
-The primary challenge with this task is blocking off a port only to non-local systems. Because the proxy is hosted locally, we cannot just block off the port to all communications as we would then be unable to access the website through the proxy.
-
-With IPTables we can do this safely with two lines \<UNTESTED\>. However more are needed if our web-server is a container.
-```
-iptables -A INPUT --src 127.0.0.1 -J ACCEPT
-iptables -A INPUT -p tcp --dport 8080 DROP
-```
-
-A neat alternative would be to use docker. We would at least need to do the following.
+A neat alternative to a host-based system would be to use docker networks. We would at least need to do the following.
 1. Implement Proxy Container
     * We have the config, we would just need to look into how we can add that to the container (Dockerfile, Volumes)
 1. Create Network
     * Containers cannot communicate unless they are on the same network, unless specified they will be on the same default network 
 1. Restart ... \<Fill in later\>
+
+## Old Documentation (DO NOT IMPLEMENT)
+The primary challenge with this task is blocking off a port only to non-local systems. Because the proxy is hosted locally, we cannot just block off the port to all communications as we would then be unable to access the website through the proxy.
+
+With IPTables we can do this safely with two lines \<UNTESTED\>. However more are needed if our web-server is a container as traffic would be routed through the Forward chain (Which makes life painful) we would probably have to experiment with chains in the prerouting tables...
+```
+iptables -A INPUT --src 127.0.0.1 -J ACCEPT
+iptables -A INPUT -p tcp --dport 8080 DROP
+```
+

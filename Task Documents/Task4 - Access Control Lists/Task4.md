@@ -12,14 +12,14 @@ Again, the previous students did not produce the most comprehensive documentatio
 1. Allow the local administrator (using the machine hosting the site) access
 1. Limit access to any unfinished or testing pages that are found
 
-## Old Documentations
+## Old Documentations (DO NO IMPLEMENT)
 
 Access Control Lists (ACL) are structures, that we use to define as set of rules. We use these rules to determine if the connection we are receiving is going to be accepted or rejected. This is of course based off of the conditions that we specify in the ACL.
 
 
 In this case we are going to define a ACL as a operation done by the proxy. What proxy we are using is yet to be decided, but two common proxies are HAproxy and Nginx.
 
-HAProxy is easier as we only need two (realy three) lines to implement the Access Control List
+HAProxy is easier as we only need two (really three) lines to implement the Access Control List
 ```
 # Limit access to those listed IPs
 acl network_allowed src <ip1> <ip2>

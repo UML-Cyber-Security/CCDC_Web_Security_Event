@@ -40,8 +40,10 @@
           name: docker.io
         notify:
           - Docker Config
-          - Docker Web
-          - Docker Proxy
+          - Docker network
+          - Web container
+          - Pull proxy
+          - User Config
 
 
 handlers:
@@ -54,21 +56,38 @@ handlers:
 #      cmd: # Add desktop type to user homes.
 #    notify:
 #      - Restart rdp
+  # Restart the rdp service 
   - name: Restart rdp
     ansible.builtin.systemd:
       name: xrdp
       state: restarted
+  # Start the Telnet server 
   - name: Start telnet
     ansible.builtin.systemd:
       name: inetd
       state: started
-  - name: Docker Web
-    ansible.builtin.shell: 
-      cmd: docker pull nginx # REPLACE WITH WEB CONTAINER 
-  - name: Docker Proxy
-    ansible.builtin.shell: 
-      cmd: docker pull nginx
+  # Create the docker network 
+  - name: Docker network
+    community.docker.docker_network:
+      name: website_proxy_network
+  # Create and start the web container (running on 
+  - name: Web container
+    community.docker.docker_container:
+      image: nginx # Change to be site once container is uploaded
+      name: web-site
+      pull: true
+      state: started
+      published_ports:
+        - "8080:80"
+  - name: Pull proxy
+    community.docker.docker_image:
+      name: nginx # Pull image for the proxy
+      source: pull
+      # Select platform for pulling. If not specified, will pull whatever docker prefers.
   - name: User Config
     ansible.builtin.shell: | 
       usermod -aG manager docker
     
+
+
+

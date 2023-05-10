@@ -2,6 +2,10 @@
 ## Tasks completed:
 Modified the UML Cyber Security Website to be a "Bait & Tackle Bazaar"
 
+Original image source: https://perrysbaitshop.com/images/Perrys-Bait-and-Tackle.jpg
+
+I will use Dalle-2 to make an original image once my credits refill
+
 ![Picture](HomeScreenshot.png)
 Completed:
 Changed Home & About pages to reflect the new content

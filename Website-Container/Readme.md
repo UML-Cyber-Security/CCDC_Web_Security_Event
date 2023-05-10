@@ -2,6 +2,7 @@
 ## Tasks completed:
 Modified the UML Cyber Security Website to be a "Bait & Tackle Bazaar"
 
+![Picture](HomeScreenshot.png)
 Completed:
 Changed Home & About pages to reflect the new content
 

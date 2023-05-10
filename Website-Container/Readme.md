@@ -1,6 +1,6 @@
 # Don't ask questions, work in progress
 ## Tasks completed:
-Modified the UML Cyber Security Website to be a "Bait & Tackle Bazaar", found [here](https://github.com/UML-Cyber-Security/UML_Cyberclub_Site)
+Modified the [UML Cyber Security Website](https://github.com/UML-Cyber-Security/UML_Cyberclub_Site) to be a "Bait & Tackle Bazaar"
 
 Original image [source](https://perrysbaitshop.com/images/Perrys-Bait-and-Tackle.jpg)
 

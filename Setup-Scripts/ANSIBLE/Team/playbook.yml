@@ -1,92 +1,164 @@
-- name: BlueTeam_Initial_Setup
-  hosts: blueteam
+#name: BlueTeam_Initial_Setup
+- hosts: blueteam
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   tasks:
-    block:
-      - name: Add Wireshark Repository
-        ansible.builtin.apt_repository:
-          repo: ppa:wireshark-dev/stable
-      - name: Update Repositories # Will this work on its own? Possibly!
-        ansible.builtin.apt:
-          update_cache: yes
-      - name: Install Sniffers
-        ansible.builtin.apt:
-          name: 
-          - wireshark
-          - tcpdump
-      - name: Install Nginx
-        ansible.builtin.apt:
-          name: nginx
-        notify:
-          - Stop Nginx
-      - name: Install XRDP
-        ansible.builtin.apt:
-          name: xrdp
-        notify:
-          - Restart rdp
-#          - Configure rdp
-      - name: Install Telnet
-        ansible.builtin.apt:
-          name: telnetd
-        notify:
-          - Start telnet
-      - name: user_create
-        ansible.builtin.shell: |
-          sudo useradd -m worker 
-          sudo useradd -m manager -G sudo
-          chpass "worker:ThisIsAGreatPassword" 
-          chpass "manager:WellThisIsGood"
-      - name: Docker
-        ansible.builtin.apt:
-          name: docker.io
-        notify:
-          - Docker Config
-          - Docker network
-          - Web container
-          - Pull proxy
-          - User Config
+    # Add the wireshark repository so we can install it
+    - name: Add Wireshark Repository
+      ansible.builtin.apt_repository:
+        repo: ppa:wireshark-dev/stable
+    # Update local package indexs
+    - name: Update Repositories
+      ansible.builtin.apt:
+        update_cache: yes
+    # Install the Sniffers, if installed configure the system (no sudo needed)
+    - name: Install Sniffers
+      ansible.builtin.apt:
+        name: 
+        - wireshark
+        - tcpdump
+      notify:
+        - Sniff Config
+    # Install Nginx, ensure it is not running
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+      notify:
+        - Stop Nginx
+    # Install xrdp and restart it
+    - name: Install XRDP
+      ansible.builtin.apt:
+        name: xrdp
+    # Install a GUI - arbitrarily chose xfce4 (can and will change)
+    - name: Install GUI
+      ansible.builtin.apt:
+        name: 
+        - xfce4
+        - xfce4-terminal
+        - xdg-utils
+      notify:
+        - Configure rdp
+    # Install Telnet
+    - name: Install Telnet
+      ansible.builtin.apt:
+        name: telnetd
+      notify:
+        - Start telnet
+    # Create two users students will have access to
+    - name: user_create
+      ansible.builtin.shell: |
+        useradd -m -s /bin/bash worker 
+        useradd -m -s /bin/bash manager -G sudo
+        echo "worker:ThisIsAGreatPassword" | chpasswd 
+        echo "manager:WellThisIsGood" | chpasswd   
+    # Install Docker (.io version - can change to official version)
+    # WE also need to install python3-pip and setuptools to allow ansible
+    # To work, if installed setup everything needed
+    - name: Docker
+      ansible.builtin.apt:
+        name: 
+        - docker.io
+        - python3-pip
+        - python3-setuptools
+      notify:
+        - Docker pip
+        - Docker start
+        - Docker network
+        - Web container
+        - Pull proxy
+        - User Config
 
 
-handlers:
-  - name: Stop Nginx
-    ansible.builtin.systemd:
-      name: nginx
-      state: stopped
-#  - name: Configure rdp
-#    ansible.builtin.shell: 
-#      cmd: # Add desktop type to user homes.
-#    notify:
-#      - Restart rdp
-  # Restart the rdp service 
-  - name: Restart rdp
-    ansible.builtin.systemd:
-      name: xrdp
-      state: restarted
-  # Start the Telnet server 
-  - name: Start telnet
-    ansible.builtin.systemd:
-      name: inetd
-      state: started
-  # Create the docker network 
-  - name: Docker network
-    community.docker.docker_network:
-      name: website_proxy_network
-  # Create and start the web container (running on 
-  - name: Web container
-    community.docker.docker_container:
-      image: nginx # Change to be site once container is uploaded
-      name: web-site
-      pull: true
-      state: started
-      published_ports:
-        - "8080:80"
-  - name: Pull proxy
-    community.docker.docker_image:
-      name: nginx # Pull image for the proxy
-      source: pull
-      # Select platform for pulling. If not specified, will pull whatever docker prefers.
-  - name: User Config
-    ansible.builtin.shell: | 
-      usermod -aG manager docker
+    # Install a Web Browser
+#    - name: Install firefox
+#      ansible.builtin.apt:
+#        name: firefox   
+#      notify:
+#        - Configure Firefox 
+
+
+  handlers:
+    # Configure sniffers
+    - name: Sniff Config
+      ansible.builtin.shell: |
+        groupadd wireshark
+        chgrp wireshark /usr/bin/dumpcap
+        chmod o-rx /usr/bin/dumpcap
+        setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+        getcap /usr/bin/dumpcap
+        usermod -aG wireshark worker
+        usermod -aG wireshark manager
+    # Stop Nginx
+    - name: Stop Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        state: stopped
+    # Configure RDP - and set default terminal
+    - name: Configure rdp
+      ansible.builtin.shell: 
+        cmd: | # Add desktop type to user homes.
+          # Set RDP to use xfc4
+          sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce4-session \n' /etc/xrdp/startwm.sh
+          # xfc4 requires this
+          adduser xrdp ssl-cert
+          # Set default terminal so shortcut works
+          update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
+          # Create file and populate so there are no requests for passwords on startup
+          echo "[Allow colord for all users]\nIdentity=unix-user:*\nAction=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile;org.freedesktop.packagekit.system-sources-refresh\nResultAny=yes\nResultInactive=yes\nResultActive=yes" > /etc/polkit-1/localauthority/50-local.d/color.pkla
+          
+      notify:
+        - Restart rdp
+    # Restart the rdp service 
+    - name: Restart rdp
+      ansible.builtin.systemd:
+        name: xrdp
+        state: restarted
+    # Start the Telnet server 
+    - name: Start telnet
+      ansible.builtin.systemd:
+        name: inetd
+        state: started
+    # Install Docker python packages
+    - name: Docker pip
+      pip:
+        name: docker
+    # Start Docker
+    - name: Docker start
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+    # Create the docker network 
+    - name: Docker network
+      community.docker.docker_network:
+        name: website_proxy_network
+    # Create and start the web container (running on 
+    - name: Web container
+      community.docker.docker_container:
+        image: nginx # Change to be site once container is uploaded
+        name: web-site
+        pull: true
+        state: started
+        published_ports:
+          - "8080:80"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data 
+    - name: Pull proxy
+      community.docker.docker_image:
+        name: nginx # Pull image for the proxy
+        source: pull
+    - name: User Config
+      ansible.builtin.shell: | 
+        usermod -aG docker manager
+
+
+
+#    - name: Configure Firefox # Does not work -- more errors 
+#      ansible.builtin.shell:
+#        cmd: update-alternatives --set x-www-browser /usr/bin/firefox 
+        
+
     
 
 

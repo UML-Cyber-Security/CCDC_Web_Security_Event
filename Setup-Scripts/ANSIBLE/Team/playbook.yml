@@ -1,92 +1,130 @@
-- name: BlueTeam_Initial_Setup
-  hosts: blueteam
+#name: BlueTeam_Initial_Setup
+- hosts: blueteam
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   tasks:
-    block:
-      - name: Add Wireshark Repository
-        ansible.builtin.apt_repository:
-          repo: ppa:wireshark-dev/stable
-      - name: Update Repositories # Will this work on its own? Possibly!
-        ansible.builtin.apt:
-          update_cache: yes
-      - name: Install Sniffers
-        ansible.builtin.apt:
-          name: 
-          - wireshark
-          - tcpdump
-      - name: Install Nginx
-        ansible.builtin.apt:
-          name: nginx
-        notify:
-          - Stop Nginx
-      - name: Install XRDP
-        ansible.builtin.apt:
-          name: xrdp
-        notify:
-          - Restart rdp
-#          - Configure rdp
-      - name: Install Telnet
-        ansible.builtin.apt:
-          name: telnetd
-        notify:
-          - Start telnet
-      - name: user_create
-        ansible.builtin.shell: |
-          sudo useradd -m worker 
-          sudo useradd -m manager -G sudo
-          chpass "worker:ThisIsAGreatPassword" 
-          chpass "manager:WellThisIsGood"
-      - name: Docker
-        ansible.builtin.apt:
-          name: docker.io
-        notify:
-          - Docker Config
-          - Docker network
-          - Web container
-          - Pull proxy
-          - User Config
+    - name: Add Wireshark Repository
+      ansible.builtin.apt_repository:
+        repo: ppa:wireshark-dev/stable
+    - name: Update Repositories # Will this work on its own? Possibly!
+      ansible.builtin.apt:
+        update_cache: yes
+    - name: Install Sniffers
+      ansible.builtin.apt:
+        name: 
+        - wireshark
+        - tcpdump
+      notify:
+        - Sniff Config
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+      notify:
+        - Stop Nginx
+    - name: Install XRDP
+      ansible.builtin.apt:
+        name: xrdp
+      notify:
+        - Restart rdp
+    - name: Install GUI
+      ansible.builtin.apt:
+        name: 
+        - xfce4
+        - xfce4-terminal
+      notify:
+        - Configure rdp
+    - name: Install Telnet
+      ansible.builtin.apt:
+        name: telnetd
+      notify:
+        - Start telnet
+    - name: user_create
+      ansible.builtin.shell: |
+        useradd -m -s /bin/bash worker 
+        useradd -m -s /bin/bash manager -G sudo
+        echo "worker:ThisIsAGreatPassword" | chpasswd 
+        echo "manager:WellThisIsGood" | chpasswd   
+    - name: Docker
+      ansible.builtin.apt:
+        name: 
+        - docker.io
+        - python3-pip
+        - python3-setuptools
+      notify:
+        - Docker pip
+        - Docker start
+        - Docker network
+        - Web container
+        - Pull proxy
+        - User Config
+#        - Docker Config
+#      - name: Install firefox
+#        ansible.builtin.apt:
+#          name: firefox    
+  handlers:
+    # Configure sniffers
+    - name: Sniff Config
+      ansible.builtin.shell: |
+        groupadd wireshark
+        chgrp wireshark /usr/bin/dumpcap
+        chmod o-rx /usr/bin/dumpcap
+        setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/dumpcap
+        getcap /usr/bin/dumpcap
+        usermod -aG wireshark worker
+        usermod -aG wireshark manager
+    - name: Stop Nginx
+      ansible.builtin.systemd:
+        name: nginx
+        state: stopped
+    - name: Configure rdp
+      ansible.builtin.shell: 
+        cmd: | # Add desktop type to user homes.
+          sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce4-session \n' /etc/xrdp/startwm.sh
+          adduser xrdp ssl-cert
+      notify:
+        - Restart rdp
+    # Restart the rdp service 
+    - name: Restart rdp
+      ansible.builtin.systemd:
+        name: xrdp
+        state: restarted
+    # Start the Telnet server 
+    - name: Start telnet
+      ansible.builtin.systemd:
+        name: inetd
+        state: started
+    # Install Docker python packages
+    - name: Docker pip
+      pip:
+        name: docker
+    # Start Docker
+    - name: Docker start
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+    # Create the docker network 
+    - name: Docker network
+      community.docker.docker_network:
+        name: website_proxy_network
+    # Create and start the web container (running on 
+    - name: Web container
+      community.docker.docker_container:
+        image: nginx # Change to be site once container is uploaded
+        name: web-site
+        pull: true
+        state: started
+        published_ports:
+          - "8080:80"
+    - name: Pull proxy
+      community.docker.docker_image:
+        name: nginx # Pull image for the proxy
+        source: pull
+    - name: User Config
+      ansible.builtin.shell: | 
+        usermod -aG docker manager
+        # Select platform for pulling. If not specified, will pull whatever docker prefers.
 
-
-handlers:
-  - name: Stop Nginx
-    ansible.builtin.systemd:
-      name: nginx
-      state: stopped
-#  - name: Configure rdp
-#    ansible.builtin.shell: 
-#      cmd: # Add desktop type to user homes.
-#    notify:
-#      - Restart rdp
-  # Restart the rdp service 
-  - name: Restart rdp
-    ansible.builtin.systemd:
-      name: xrdp
-      state: restarted
-  # Start the Telnet server 
-  - name: Start telnet
-    ansible.builtin.systemd:
-      name: inetd
-      state: started
-  # Create the docker network 
-  - name: Docker network
-    community.docker.docker_network:
-      name: website_proxy_network
-  # Create and start the web container (running on 
-  - name: Web container
-    community.docker.docker_container:
-      image: nginx # Change to be site once container is uploaded
-      name: web-site
-      pull: true
-      state: started
-      published_ports:
-        - "8080:80"
-  - name: Pull proxy
-    community.docker.docker_image:
-      name: nginx # Pull image for the proxy
-      source: pull
-      # Select platform for pulling. If not specified, will pull whatever docker prefers.
-  - name: User Config
-    ansible.builtin.shell: | 
-      usermod -aG manager docker
     
 
 

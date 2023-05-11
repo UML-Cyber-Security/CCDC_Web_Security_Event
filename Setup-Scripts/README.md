@@ -34,4 +34,11 @@ The Machine will need to have the following installed
 * Pull Docker website container to the machine
 * Pull the Proxy container to the machine 
 
+## Blue Team Ports
+* 22
+* 23 
+* 80
+* 443
+* 9443 -- Later for task 5
+* ICMP - So they can ping it and whatnot
  

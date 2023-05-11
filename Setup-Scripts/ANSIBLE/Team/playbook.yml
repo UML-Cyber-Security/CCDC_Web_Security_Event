@@ -30,14 +30,13 @@
     - name: Install XRDP
       ansible.builtin.apt:
         name: xrdp
-      notify:
-        - Restart rdp
     # Install a GUI - arbitrarily chose xfce4 (can and will change)
     - name: Install GUI
       ansible.builtin.apt:
         name: 
         - xfce4
         - xfce4-terminal
+        - xdg-utils
       notify:
         - Configure rdp
     # Install Telnet
@@ -69,11 +68,16 @@
         - Web container
         - Pull proxy
         - User Config
-#        - Docker Config
+
+
     # Install a Web Browser
-    - name: Install firefox
-        ansible.builtin.apt:
-          name: firefox    
+#    - name: Install firefox
+#      ansible.builtin.apt:
+#        name: firefox   
+#      notify:
+#        - Configure Firefox 
+
+
   handlers:
     # Configure sniffers
     - name: Sniff Config
@@ -85,15 +89,24 @@
         getcap /usr/bin/dumpcap
         usermod -aG wireshark worker
         usermod -aG wireshark manager
+    # Stop Nginx
     - name: Stop Nginx
       ansible.builtin.systemd:
         name: nginx
         state: stopped
+    # Configure RDP - and set default terminal
     - name: Configure rdp
       ansible.builtin.shell: 
         cmd: | # Add desktop type to user homes.
+          # Set RDP to use xfc4
           sed -i.bak '/fi/a #xrdp multiple users configuration \n xfce4-session \n' /etc/xrdp/startwm.sh
+          # xfc4 requires this
           adduser xrdp ssl-cert
+          # Set default terminal so shortcut works
+          update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
+          # Create file and populate so there are no requests for passwords on startup
+          echo "[Allow colord for all users]\nIdentity=unix-user:*\nAction=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile;org.freedesktop.packagekit.system-sources-refresh\nResultAny=yes\nResultInactive=yes\nResultActive=yes" > /etc/polkit-1/localauthority/50-local.d/color.pkla
+          
       notify:
         - Restart rdp
     # Restart the rdp service 
@@ -128,6 +141,9 @@
         state: started
         published_ports:
           - "8080:80"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data 
     - name: Pull proxy
       community.docker.docker_image:
         name: nginx # Pull image for the proxy
@@ -135,7 +151,13 @@
     - name: User Config
       ansible.builtin.shell: | 
         usermod -aG docker manager
-        # Select platform for pulling. If not specified, will pull whatever docker prefers.
+
+
+
+#    - name: Configure Firefox # Does not work -- more errors 
+#      ansible.builtin.shell:
+#        cmd: update-alternatives --set x-www-browser /usr/bin/firefox 
+        
 
     
 

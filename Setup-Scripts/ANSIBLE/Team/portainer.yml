@@ -1,0 +1,20 @@
+- name: portainer
+  hosts: blueteam
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Portainer Volume
+      community.docker.docker_volume:
+        name: portainer_data
+      notify:
+        - Portainer container
+    - name: Portainer container
+      community.docker.docker_container:
+        image: portainer/portainer-ce
+        name: portainer
+        pull: true
+        state: started
+        published_ports:
+          - "9443:9443"
+        restart_policy: "always"

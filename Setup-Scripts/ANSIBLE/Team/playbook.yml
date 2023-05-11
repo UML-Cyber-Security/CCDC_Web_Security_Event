@@ -4,12 +4,15 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   tasks:
+    # Add the wireshark repository so we can install it
     - name: Add Wireshark Repository
       ansible.builtin.apt_repository:
         repo: ppa:wireshark-dev/stable
-    - name: Update Repositories # Will this work on its own? Possibly!
+    # Update local package indexs
+    - name: Update Repositories
       ansible.builtin.apt:
         update_cache: yes
+    # Install the Sniffers, if installed configure the system (no sudo needed)
     - name: Install Sniffers
       ansible.builtin.apt:
         name: 
@@ -17,16 +20,19 @@
         - tcpdump
       notify:
         - Sniff Config
+    # Install Nginx, ensure it is not running
     - name: Install Nginx
       ansible.builtin.apt:
         name: nginx
       notify:
         - Stop Nginx
+    # Install xrdp and restart it
     - name: Install XRDP
       ansible.builtin.apt:
         name: xrdp
       notify:
         - Restart rdp
+    # Install a GUI - arbitrarily chose xfce4 (can and will change)
     - name: Install GUI
       ansible.builtin.apt:
         name: 
@@ -34,17 +40,22 @@
         - xfce4-terminal
       notify:
         - Configure rdp
+    # Install Telnet
     - name: Install Telnet
       ansible.builtin.apt:
         name: telnetd
       notify:
         - Start telnet
+    # Create two users students will have access to
     - name: user_create
       ansible.builtin.shell: |
         useradd -m -s /bin/bash worker 
         useradd -m -s /bin/bash manager -G sudo
         echo "worker:ThisIsAGreatPassword" | chpasswd 
         echo "manager:WellThisIsGood" | chpasswd   
+    # Install Docker (.io version - can change to official version)
+    # WE also need to install python3-pip and setuptools to allow ansible
+    # To work, if installed setup everything needed
     - name: Docker
       ansible.builtin.apt:
         name: 
@@ -59,9 +70,10 @@
         - Pull proxy
         - User Config
 #        - Docker Config
-#      - name: Install firefox
-#        ansible.builtin.apt:
-#          name: firefox    
+    # Install a Web Browser
+    - name: Install firefox
+        ansible.builtin.apt:
+          name: firefox    
   handlers:
     # Configure sniffers
     - name: Sniff Config

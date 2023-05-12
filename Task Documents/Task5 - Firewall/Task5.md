@@ -4,11 +4,12 @@ Now that out \<Nginx\> proxy is fully configured. The management group would lik
 As with the previous tasks we found some old notes the former groups left.
 
 ## Expected Outcome
+1. This system is implemented using Docker  
 1. The website is only accessible through the proxy
     * Accessible through port 80
     * Accessible through port 443
-2. The website is **not** accessible through port 8080 to non-local systems
-3. This system is implemented using Docker  
+1. The website is **not** accessible through port 8080 to non-local systems
+
 ## Old Documentation
 
 A neat alternative to a host-based system would be to use docker networks. We would at least need to do the following.

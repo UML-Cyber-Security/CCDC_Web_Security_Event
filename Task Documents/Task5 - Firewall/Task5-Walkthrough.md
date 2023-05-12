@@ -22,11 +22,11 @@ The following are three methods of solving this problem, as we are using contain
 1. Stop Nginx **ONLY if there is NO Nginx container**
     * sudo systemctl stop nginx
 2. Start the website container. The main difference now is there will be **no** port mappings, and it will be attached to our new network 
-    *  docker run -d --name web-container --network task5 --hostname web-container \<Container-Image-Name\>
+    *  docker run -d --name web-container --network website_proxy_network --hostname web-container \<Container-Image-Name\>
 3. Start the website container. The main difference now is it will be attached to our new network
-    *  docker run -d -p 80:80 -p 443:443 --name proxy-container --network task5 -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf --hostname proxy-container \<Container-Image-Name\>
+    *  docker run -d -p 80:80 -p 443:443 --name proxy-container --network website_proxy_network -v /etc/nginx/conf.d/proxy.conf:/etc/nginx/sites-available/default --hostname proxy-container nginx
 
-If the proxy is local we can do the following 
+If the proxy is local we can do the following (It binds to 127.0.0.1)
 1.  Stop the website container
 1.  Start the website container 
     * docker run -d --name web-container --hostname web-container -p 127.0.0.1:8080:80 \<Container-Image-Name\>

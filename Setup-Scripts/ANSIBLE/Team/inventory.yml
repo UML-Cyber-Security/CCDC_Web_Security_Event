@@ -1,4 +1,4 @@
 blueteam:
   hosts:
     vm1:
-      ansible_host: 34.215.151.253
+      ansible_host: 54.186.197.241

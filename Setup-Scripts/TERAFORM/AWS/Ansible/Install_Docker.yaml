@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Updating packages
+    package:
+      update_cache: true
+
+  
+  - name: Installing Docker on Ubuntu
+    ansible.builtin.script: install_ubuntu.sh
+    when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+    register: value
+
+  - name: Outputting Ubuntu Installation
+    debug:
+      var: value

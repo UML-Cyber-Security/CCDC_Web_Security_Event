@@ -1,4 +1,11 @@
 # Don't ask questions, work in progress
+## How to use
+The containers can be build with the "build" script, run with the "run" script, and stopped with the "stop" script.
+
+They spin up a reactJS app, a posgresql database, and an API to connect the two.
+
+The run script also initializes the postgresql database.
+
 ## Tasks completed:
 Modified the [UML Cyber Security Website](https://github.com/UML-Cyber-Security/UML_Cyberclub_Site) to be a "Bait & Tackle Bazaar"
 

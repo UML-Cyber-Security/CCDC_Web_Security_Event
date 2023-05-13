@@ -5,11 +5,9 @@ const port = 3001;
 
 const pool = new Pool({
  user: 'admin',
- // However, since the PostgreSQL server is running inside a Docker container
- // you might need to use the IP address of the container instead of localhost
- host: '172.17.0.2',
- database: 'mydatabase',
- password: 'mypassword',
+ host: 'database',
+ database: 'vulnerableDatabase',
+ password: 'securePassword',
  port: 5432,
 });
 

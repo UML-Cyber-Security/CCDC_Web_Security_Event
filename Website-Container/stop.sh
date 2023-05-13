@@ -1,0 +1,1 @@
+docker stop database website api-server

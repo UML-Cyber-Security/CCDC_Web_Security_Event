@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
  Avatar,
  Badge,
@@ -11,11 +12,11 @@ import {
 } from '@mantine/core';
 
 const jobColors = {
- 'bait master': 'cyan',
- 'tackle specialist': 'pink',
- 'fishing guide': 'green',
- 'sales manager': 'red',
- 'IT coordinator': 'orange'
+    'bait master': 'lightblue',
+    'tackle specialist': 'hotpink',
+    'fishing guide': 'limegreen',
+    'sales manager': 'tomato',
+    'IT coordinator': 'gold'
 };
 
 export function UsersTable() {

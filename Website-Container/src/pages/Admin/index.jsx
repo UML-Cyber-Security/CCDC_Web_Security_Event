@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LoginForm from "../../components/Login/LoginForm";
+import "./style.css";
 
 function Admin() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,7 +27,7 @@ function Admin() {
     };
   
     return (
-      <div>
+      <div className="adminPageForm">
         <h1>Admin Page</h1>
         {isLoggedIn ? (
           <div>

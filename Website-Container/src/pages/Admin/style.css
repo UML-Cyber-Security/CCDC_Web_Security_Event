@@ -1,0 +1,19 @@
+body {
+    background-color: #242424;
+    margin: 0;
+    padding: 0;
+}
+
+.adminPageForm {
+    color: #fff;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.adminPageForm h1 {
+    color: #fff;
+}

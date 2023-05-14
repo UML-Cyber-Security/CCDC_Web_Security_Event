@@ -7,7 +7,7 @@ video {
 }
 
 .hero-container {
-  background: url('https://perrysbaitshop.com/images/Perrys-Bait-and-Tackle.jpg') center center/cover no-repeat;
+  background: url('badlyEditedDalle2Photo.png') center center/cover no-repeat;
   /* background-size: 75%; */
   height: 100vh;
   width: 100%;
@@ -20,7 +20,7 @@ video {
 }
 
 .hero-container > h1 {
-  color: #fff;
+  color: #4d4d4d;
   font-size: 100px;
   margin-top: -100px;
   text-align: center;
@@ -41,9 +41,10 @@ video {
 }
 
 .hero-text-container {
-background-color: rgba(255, 255, 255, 0.8);
-padding: 20px;
-border-radius: 10px;
+  background-color: rgba(24, 26, 27, 0.8);
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .lighter-dark {

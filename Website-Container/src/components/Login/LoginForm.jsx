@@ -10,9 +10,10 @@ function LoginForm({ onLogin }) {
   };
 
   return (
+    <div className="loginFormStyle">
     <form onSubmit={handleSubmit}>
       <label>
-        Username:
+        Username:   
         <input
           type="text"
           value={username}
@@ -21,7 +22,7 @@ function LoginForm({ onLogin }) {
       </label>
       <br />
       <label>
-        Password:
+        Password:   
         <input
           type="password"
           value={password}
@@ -31,6 +32,7 @@ function LoginForm({ onLogin }) {
       <br />
       <button type="submit">Log In</button>
     </form>
+    </div>
   );
 }
 

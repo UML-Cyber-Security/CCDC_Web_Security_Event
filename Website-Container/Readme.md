@@ -9,11 +9,8 @@ The run script also initializes the postgresql database.
 ## Tasks completed:
 Modified the [UML Cyber Security Website](https://github.com/UML-Cyber-Security/UML_Cyberclub_Site) to be a "Bait & Tackle Bazaar"
 
-Original image [source](https://perrysbaitshop.com/images/Perrys-Bait-and-Tackle.jpg)
+Hero Section with a Dalle-2 image: ![source](ChangedHeroSection.png)
 
-I will use Dalle-2 to make an original image once my credits refill
-
-![Picture](HomeScreenshot.png)
 Completed:
 Changed Home & About pages to reflect the new content
 

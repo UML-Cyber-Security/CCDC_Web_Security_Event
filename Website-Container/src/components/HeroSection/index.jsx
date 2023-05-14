@@ -12,12 +12,12 @@ function HeroSection() {
  <h1>Welcome to the Bait & Tackle Bazaar!</h1>
 
  <h3>The one-stop-shop for all your fishing needs</h3>
- <Group my="lg">
+ <Group my="lg" style={{ justifyContent: "center" }}>
  <Link to="/about">
  <Button color="lighter-dark" size="md">Learn More</Button>
  </Link>
  <Button variant="filled" size="md" href="/shop" component={Link}>Start Shopping</Button>
- </Group>
+</Group>
  </div>
  </div>
  );

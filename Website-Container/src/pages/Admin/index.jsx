@@ -35,10 +35,10 @@ function Admin() {
             <p>Welcome to the admin page.</p>
           </div>
         ) : (
-          <>
+          <div>
             <LoginForm onLogin={handleLogin} />
             {errorMessage && <div>{errorMessage}</div>}
-          </>
+          </div>
         )}
       </div>
     );

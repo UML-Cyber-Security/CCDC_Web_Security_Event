@@ -5,7 +5,7 @@ import "./style.css";
 
 function Shop() {
  return (
- <div className="shopStyleWhite">
+<div className="shopStyleWhite">
  <h1>Store</h1>
     <ShopInterface />
  </div>

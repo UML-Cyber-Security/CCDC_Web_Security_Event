@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./style.css";
 
 const products = [
  { id: 1, name: "Fishing Rod", price: 19.99 },

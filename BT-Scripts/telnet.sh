@@ -1,9 +1,10 @@
 #! /usr/bin/expect -f
-spawn telnet $1
+set IP [lindex $argv 0];
+spawn telnet $IP
 expect -re "login"
 send "manager\n"
 expect -re "Password"
-send "WellThisIsGood\n" # Will need to change passwords 
+send "WellThisIsGood\n" 
 sleep 5
-expect "WAP" # What is this - A telnet specific thing as far as I can tell...
+expect "WAP" 
 send "exit\n"

@@ -8,9 +8,9 @@ Again, the previous students did not produce the most comprehensive documentatio
 ## Expected Outcome
 1. Limit access to the \</admin\> page
 1. Allow the management group access
-  * They are using a machine with an IP of \<10.0.0.0\>
-1. Allow the local administrator (using the machine hosting the site) access
-1. Limit access to any unfinished or testing pages that are found
+   * They are using a machine with an IP of \<10.0.0.0\>
+2. Allow the local administrator (using the machine hosting the site) access
+3. Limit access to any unfinished or testing pages that are found
 
 ## Old Documentations (DO NO IMPLEMENT)
 

@@ -17,7 +17,7 @@ resource "aws_security_group" "blackteam_ssh_access" {
     from_port   = 0
     to_port     = 0
     protocol    = -1
-    cidr_blocks = ["129.63.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -28,22 +28,22 @@ resource "aws_security_group" "blackteam_ssh_access" {
 
 resource "aws_security_group" "telnet_access" {
 
-  name        = "Allow_SSH "
-  description = "Allows inbound ssh access"
+  name        = "Allow_Telnet "
+  description = "Allows inbound Telnet access"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port   = 23
     to_port     = 23
     protocol    = "tcp"
-    cidr_blocks = ["129.63.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = -1
-    cidr_blocks = ["129.63.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -86,7 +86,7 @@ resource "aws_security_group" "web_access" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["129.63.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
 
   }
 

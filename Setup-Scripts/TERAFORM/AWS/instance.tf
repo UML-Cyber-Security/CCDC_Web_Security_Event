@@ -4,7 +4,7 @@ resource "aws_instance" "team" {
   count                       = var.team_count
   key_name                    = var.key_name
   instance_type               = "t2.micro"
-  private_ip                  = "10.0.1.${10+count.index}"
+  private_ip                  = "10.0.1.${5 + count.index}"
   subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
 
@@ -22,7 +22,7 @@ resource "aws_instance" "team" {
 
   tags = {
 
-    Name = "team.${count.index}"
+    Name = "team-${1 + count.index}"
   }
 }
 

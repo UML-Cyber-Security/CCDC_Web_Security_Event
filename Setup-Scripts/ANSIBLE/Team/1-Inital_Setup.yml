@@ -52,32 +52,6 @@
         useradd -m -s /bin/bash manager -G sudo
         echo "worker:ThisIsAGreatPassword" | chpasswd 
         echo "manager:WellThisIsGood" | chpasswd   
-    # Install Docker (.io version - can change to official version)
-    # WE also need to install python3-pip and setuptools to allow ansible
-    # To work, if installed setup everything needed
-    - name: Docker
-      ansible.builtin.apt:
-        name: 
-        - docker.io
-        - python3-pip
-        - python3-setuptools
-      notify:
-        - Docker pip
-        - Docker start
-        - Docker network
-        - Web container
-        - DB container
-        - Pull proxy
-        - User Config
-
-    # Install a Web Browser
-#    - name: Install firefox
-#      ansible.builtin.apt:
-#        name: firefox   
-#      notify:
-#        - Configure Firefox 
-
-
   handlers:
     # Configure sniffers
     - name: Sniff Config
@@ -106,7 +80,6 @@
           update-alternatives --set x-terminal-emulator /usr/bin/xfce4-terminal.wrapper
           # Create file and populate so there are no requests for passwords on startup
           echo "[Allow colord for all users]\nIdentity=unix-user:*\nAction=org.freedesktop.color-manager.create-device;org.freedesktop.color-manager.create-profile;org.freedesktop.color-manager.delete-device;org.freedesktop.color-manager.delete-profile;org.freedesktop.color-manager.modify-device;org.freedesktop.color-manager.modify-profile;org.freedesktop.packagekit.system-sources-refresh\nResultAny=yes\nResultInactive=yes\nResultActive=yes" > /etc/polkit-1/localauthority/50-local.d/color.pkla
-          
       notify:
         - Restart rdp
     # Restart the rdp service 
@@ -119,58 +92,3 @@
       ansible.builtin.systemd:
         name: inetd
         state: started
-    # Install Docker python packages
-    - name: Docker pip
-      pip:
-        name: docker
-    # Start Docker
-    - name: Docker start
-      ansible.builtin.systemd:
-        name: docker
-        state: started
-    # Create the docker network 
-    - name: Docker network
-      community.docker.docker_network:
-        name: website_proxy_network
-    # Create and start the web container (running on 
-    - name: Web container
-      community.docker.docker_container:
-        image: nginx # Change to be site once container is uploaded
-        name: web-site
-        pull: true
-        state: started
-        published_ports:
-          - "8080:80"
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - portainer_data:/data 
-    - name: DB container
-      community.docker.docker_container:
-        image: postgres # Change to be site once container is uploaded
-        name: postgres-db
-        pull: true
-        state: started
-        #volumes:
-        env:
-          POSTGRES_USER: "admin"
-          POSTGRES_PASSWORD: "mypassword"
-          POSTGRES_DB: "db"
-    - name: Pull proxy
-      community.docker.docker_image:
-        name: nginx # Pull image for the proxy
-        source: pull
-    - name: User Config
-      ansible.builtin.shell: | 
-        usermod -aG docker manager
-
-
-
-#    - name: Configure Firefox # Does not work -- more errors 
-#      ansible.builtin.shell:
-#        cmd: update-alternatives --set x-www-browser /usr/bin/firefox 
-        
-
-    
-
-
-

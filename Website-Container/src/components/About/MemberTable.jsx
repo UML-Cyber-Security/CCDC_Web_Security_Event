@@ -11,16 +11,15 @@ import {
 } from '@mantine/core';
 
 const jobColors = {
-  'bait master': 'lightblue',
-  'tackle specialist': 'hotpink',
-  'fishing guide': 'limegreen',
-  'sales manager': 'tomato',
-  'IT coordinator': 'gold'
+  'bait master': 'cyan',
+  'tackle specialist': 'pink',
+  'fishing guide': 'green',
+  'sales manager': 'red',
+  'it coordinator': 'orange'
 };
 
 export function UsersTable() {
   const theme = useMantineTheme();
-
   const data = [
     {
       img: "",
@@ -64,7 +63,7 @@ export function UsersTable() {
       <td>
         <Group spacing="sm">
           <Avatar size={30} src={item.img} radius={30} />
-          <Text size="sm" weight={500}>
+          <Text size="sm" weight={500} color="white">
             {item.name}
           </Text>
         </Group>
@@ -72,7 +71,7 @@ export function UsersTable() {
       <td>
         <Badge
           color={jobColors[item.title.toLowerCase()]}
-          variant={theme.colorScheme === 'dark' ? 'light' : 'outline'}
+          variant={'light'}
         >
           {item.title}
         </Badge>
@@ -83,7 +82,7 @@ export function UsersTable() {
         </Anchor>
       </td>
       <td>
-        <Text size="sm" color="gray">
+        <Text size="sm" color="white">
           {item.description}
         </Text>
       </td>
@@ -92,19 +91,19 @@ export function UsersTable() {
 
   return (
     <ScrollArea style={{ backgroundColor: "#242424" }}>
-      <Table sx={{ minWidth: 800 }} verticalSpacing="sm" style={{ color: "#fff" }}>
+      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
         <thead>
           <tr>
-            <th>Member</th>
-            <th>Position</th>
-            <th>Email</th>
-            <th>Short Description</th>
+            <th style={{ color: 'white' }}>Member</th>
+            <th style={{ color: 'white' }}>Position</th>
+            <th style={{ color: 'white' }}>Email</th>
+            <th style={{ color: 'white' }}>Short Description</th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        <tbody>{rows}</tbody>
       </Table>
     </ScrollArea>
   );
 }
+
+export default UsersTable;

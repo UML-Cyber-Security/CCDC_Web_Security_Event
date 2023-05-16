@@ -200,6 +200,16 @@ $ sudo systemctl disable nginx
 ```
 > This will disable the service, it does not stop it (unless a flag is used). This makes it so the service will not be started when the system starts up.
 
+**Service Status**
+```sh
+$ sudo systemctl status <service>
+
+# Example 
+$ sudo systemctl status nginx
+```
+> This command will output the current status, along with some information as to why it may have failed - with a command you can run for more information (This will be some journalctl -u ... command)
+
+
 ## Package Management
 The system you are given is a Debian based system, so it uses the **apt** package manager
 

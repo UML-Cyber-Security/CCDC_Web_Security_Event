@@ -12,6 +12,7 @@
         - gnupg
         - python3-pip
         - python3-setuptools
+        update_cache: true
     - name: Docker Key
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -31,6 +32,7 @@
         - Docker network
         - Web container
         - DB container
+        - API container
         - Pull proxy
         - User Config
   handlers:
@@ -56,20 +58,31 @@
         state: started
         published_ports:
           - "8080:80"
+        networks:
+          - name: website_proxy_network
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - portainer_data:/data 
+    # Bernal made the container use a database (Placeholder)
     - name: DB container
       community.docker.docker_container:
         image: postgres # Change to be site once container is uploaded
         name: postgres-db
         pull: true
+        networks:
+          - name: website_proxy_network
         state: started
         #volumes:
-        env:
-          POSTGRES_USER: "admin"
-          POSTGRES_PASSWORD: "mypassword"
-          POSTGRES_DB: "db"
+    # Bernal made the container use a API server (Placeholder)
+    - name: API container
+      community.docker.docker_container:
+        image: nginx # Change to be site once container is uploaded
+        name: api-web-db
+        pull: true
+        networks:
+          - name: website_proxy_network
+        state: started
+        #volumes:
     - name: Pull proxy
       community.docker.docker_image:
         name: nginx # Pull image for the proxy

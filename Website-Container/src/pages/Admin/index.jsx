@@ -7,7 +7,8 @@ function Admin() {
     const [errorMessage, setErrorMessage] = useState(null);
   
     const handleLogin = (username, password) => {
-      fetch('http://localhost:3001/login', {
+      const apiPort = process.env.API_PORT || '3001';
+      fetch(`http://localhost:${apiPort}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

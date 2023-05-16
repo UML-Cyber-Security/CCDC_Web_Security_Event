@@ -24,43 +24,45 @@ const products = [
 function ShopInterface() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-   
+  
     const handleSearch = (event) => {
-    event.preventDefault();
-    setSearchResults(
-    products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    );
+      event.preventDefault();
+      setSearchResults(
+        products.filter((product) =>
+          product.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
     };
-   
+  
     return (
-    <div>
-    <h1>Bait & Tackle Bazaar</h1>
-    <form onSubmit={handleSearch}>
-    <input
-    type="text"
-    value={searchTerm}
-    onChange={(event) => setSearchTerm(event.target.value)}
-    />
-    <button type="submit">Search</button>
-    </form>
-    {searchResults.length === 0 ? (
-    <p>No results found</p>
-    ) : (
-    <ul>
-    {searchResults.map((product) => (
-    <li key={product.id}>
-    {product.name} -{" "}
-    {typeof product.price === "string"
-    ? product.price
-    : `$${product.price.toFixed(2)}`}
-    </li>
-    ))}
-    </ul>
-    )}
-    </div>
+      <div>
+        <h1>Bait & Tackle Bazaar</h1>
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+          />
+          <button type="submit">Search</button>
+        </form>
+        {searchResults.length === 0 ? (
+          <p>No results found</p>
+        ) : (
+          <ul>
+            {searchResults.map((product) => (
+              <li key={product.id}>
+                {product.name} -{" "}
+                {typeof product.price === "string"
+                  ? product.price
+                  : `$${product.price.toFixed(2)}`}
+              </li>
+            ))}
+          </ul>
+        )}
+        {/* XSS vulnerability introduced here */}
+        <div dangerouslySetInnerHTML={{ __html: searchTerm }} />
+      </div>
     );
-   }
-   
-   export default ShopInterface;
+  }
+  
+  export default ShopInterface;

@@ -1,0 +1,79 @@
+#name: Dockersetup
+- hosts: blueteam
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Preamble
+      ansible.builtin.apt:
+        name: 
+        - ca-certificates
+        - curl 
+        - gnupg
+        - python3-pip
+        - python3-setuptools
+    - name: Docker Key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Docker Repo
+      ansible.builtin.apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+    - name: Update and install Docker
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+      notify:
+        - Docker pip
+        - Docker start
+        - Docker network
+        - Web container
+        - DB container
+        - Pull proxy
+        - User Config
+  handlers:
+    # Install Docker python packages
+    - name: Docker pip
+      pip:
+        name: docker
+    # Start Docker
+    - name: Docker start
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+    # Create the docker network 
+    - name: Docker network
+      community.docker.docker_network:
+        name: website_proxy_network
+    # Create and start the web container (running on 
+    - name: Web container
+      community.docker.docker_container:
+        image: nginx # Change to be site once container is uploaded
+        name: web-site
+        pull: true
+        state: started
+        published_ports:
+          - "8080:80"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data 
+    - name: DB container
+      community.docker.docker_container:
+        image: postgres # Change to be site once container is uploaded
+        name: postgres-db
+        pull: true
+        state: started
+        #volumes:
+        env:
+          POSTGRES_USER: "admin"
+          POSTGRES_PASSWORD: "mypassword"
+          POSTGRES_DB: "db"
+    - name: Pull proxy
+      community.docker.docker_image:
+        name: nginx # Pull image for the proxy
+        source: pull
+    - name: User Config
+      ansible.builtin.shell: | 
+        usermod -aG docker manager

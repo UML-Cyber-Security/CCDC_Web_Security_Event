@@ -1,8 +1,3 @@
-Small part of official Docker one: https://docs.docker.com/get-started/docker_cheatsheet.pdf
-
-Lots of info - most not needed: https://dockerlabs.collabnix.com/docker/cheatsheet/
-
-
 # Docker Cheat Sheet 
 
 This document will cover a small set of Docker CLI commands that you can use, and that may be necessary for the tasks that will be presented.
@@ -134,3 +129,8 @@ $ docker image rm -f <image_name>
 $ docker pull <image_name>
 ```
 > This will download the container image onto the system
+
+## Additional References 
+* Official Docker: https://docs.docker.com/get-started/docker_cheatsheet.pdf
+* Lots of Info: https://dockerlabs.collabnix.com/docker/cheatsheet/ 
+* Portainer: https://docs.portainer.io/start/intro

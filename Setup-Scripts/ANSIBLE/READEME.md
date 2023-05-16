@@ -1,5 +1,5 @@
 RDP 
 ref - https://docs.e2enetworks.com/guides/ubuntu_xrdp.html
 
-
-I dont think giving them portainer right away is good. We can instantiate it for them once they get to the Firewall Task (If we think this would help) 
+Docker 
+ref - https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-docker-on-ubuntu-20-04 

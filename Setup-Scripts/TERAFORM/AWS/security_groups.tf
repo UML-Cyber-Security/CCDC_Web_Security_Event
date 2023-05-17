@@ -1,6 +1,6 @@
-resource "aws_security_group" "blackteam_ssh_access" {
+resource "aws_security_group" "blueteam_ssh_access" {
 
-  name        = "Allow_SSH "
+  name        = "Allow SSH and RDP"
   description = "Allows inbound ssh access"
   vpc_id      = module.vpc.vpc_id
 
@@ -12,6 +12,13 @@ resource "aws_security_group" "blackteam_ssh_access" {
     cidr_blocks = ["129.63.0.0/16"]
   }
 
+  ingress {
+
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["129.63.0.0/16"]
+  }
   egress {
 
     from_port   = 0
@@ -53,8 +60,8 @@ resource "aws_security_group" "telnet_access" {
 }
 
 resource "aws_security_group" "web_access" {
-  name        = "web_access"
-  description = "Inbound Web access + portainer"
+  name        = "Web_Access"
+  description = "Inbound Web access + Portainer"
   vpc_id      = module.vpc.vpc_id
 
   ingress {

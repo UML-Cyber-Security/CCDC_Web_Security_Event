@@ -107,10 +107,12 @@ $ sudo systemctl restart nginx
 ```
 
 **Docker**
-1. Remove the existing Nginx container 
+1. We can use the following command to make nginx re-read the configuration 
+    * docker kill --signal=HUP  \<nginx_container\>
+2. Remove the existing Nginx container 
     * docker ps 
     * docker rm -f \<container-Name/ID\>
-2. Start the new container, with the new configuration 
+3. Start the new container, with the new configuration 
     * docker run -d -p 80:80 -p 443:443 --name \<name\> --network \<Proxy-Server-Network\> -v **/etc/nginx/nginx.conf**:**/etc/nginx/nginx.conf** nginx
       * Note that the path in the **-v** flag on the host may need to change ex:**-v -/home/manager/nginx.cong:/etc/nginx/nginx.conf**   
 

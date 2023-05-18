@@ -109,6 +109,7 @@ $ sudo systemctl restart nginx
 **Docker**
 1. We can use the following command to make nginx re-read the configuration 
     * docker kill --signal=HUP  \<nginx_container\>
+    * ***STOP AFTER THIS ONLY CONTINUE IF NO CHANGES OCCUR***
 2. Remove the existing Nginx container 
     * docker ps 
     * docker rm -f \<container-Name/ID\>

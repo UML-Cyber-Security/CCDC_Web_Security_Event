@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+
+  # Create the website container
+  website:
+    build: .
+    container_name: website
+    hostname: website
+    networks:
+      - proxy_network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - api
+
+  # Create the postgres database container
+  postgres:
+    build: PostGresql/
+    container_name: database
+    hostname: database
+    networks:
+      - proxy_network
+    ports:
+      - "5432:5432"
+    environment:
+      - PGUSER=admin
+      - PGHOST=database
+      - PGDATABASE="vulnerableDatabase"
+      - PDPASSWORD="securePassword"
+  
+  # Create the api server
+  api:
+    build: APIServer/
+    container_name: api-server
+    hostname: api-server
+    networks:
+      - proxy_network
+    ports:
+      - "3001:3001"
+    
+networks:
+  proxy_network:
+    name: "proxy_network"
+    driver: bridge

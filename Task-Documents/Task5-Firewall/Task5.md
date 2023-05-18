@@ -1,5 +1,5 @@
 # Task 5 - Firewall Modifications
-Now that out \<Nginx\> proxy is fully configured. The management group would like your group to block off direct access to the web server; that is all traffic should be routed through the proxy. The previous group was a fan of IPTables, however we would like you to implement it this system using just docker as that will likely be easier.
+Now that our Nginx proxy is fully configured. The management group would like your group to block off direct access to the web server; that is all traffic should be routed through the proxy. The previous group was a fan of IPTables, however we would like you to implement it this system using just docker as that will likely be easier.
 
 As with the previous tasks we found some old notes the former groups left.
 

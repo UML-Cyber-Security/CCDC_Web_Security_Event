@@ -121,6 +121,15 @@ $ sudo systemctl restart nginx
 1. Restart Nginx
     * sudo systemctl restart nginx
 
+#### Testing
+We can test whether this is working in 3 steps.
+1. Access the website as you have done before - it should continue to work
+1. Attempt to access the admin page - you should get a 403 forbidden
+1. On the **Virtual Machine** run the command below. You should het a index.html page
+```sh
+$ wget localhost:80/admin
+```
+
 ####  Resources
 1. https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/
 1. https://docs.nginx.com/nginx/admin-guide/security-controls/controlling-access-proxied-tcp/

@@ -1,8 +1,23 @@
-# Task 3 - Proxy Implementation
-## Overview
-For this challenge, we will be setting up a service called a proxy. The purpose of a proxy is to create an intermediate step between you and a web server. Instead of communicating with the web server directly, the network connection is passed through the proxy.
+# Task 2 - Proxy Implementation
+Good job on finding out the vulnerability. We're shocked that an attacker can get into our website machine just by listening for the username and password. This is clearly a serious vulnerability that cannot be swept under the rug. Something must be done.
 
-## Challenge
-You must set up an nginx proxy in front of our web server. This will allow us to keep the website as secure as possible. Then, instead of visiting the website directly at the web server’s IP, it will be accessed with the IP of the proxy.
-You may find this basic tutorial useful:
-https://phoenixnap.com/kb/nginx-reverse-proxy  
+So now, we have a plan that we'd like you to implement. The first step will be to implement a proxy on the network that the website can hide behind. 
+
+This is the general idea of what a proxy is and what we're looking for:
+
+![](Images/Proxy-Idea.drawio.png)
+
+The idea is that you don't want clients to access the website directly via the web server's IP address, but you want them to access it through the proxy's IP and then the proxy will handle the redirection. We don't want to remove the original access route just yet as one misconfiguration can render the system unreachable. And so the objective of this task is to add a route to the website server using the proxy through the port **CONFIRM THE PORT THAT THE NGINX CONTAINER HAS MAPPED**.
+
+
+**Read the briefing provided before beginning your work.**
+
+## **Expected Outcome**
+1. The website is accessible using the IP address of the proxy server through port **CONFIRM THE PORT THAT THE NGINX CONTAINER HAS MAPPED**.
+
+
+
+
+
+
+

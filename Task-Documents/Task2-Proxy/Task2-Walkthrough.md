@@ -1,58 +1,52 @@
-# Task 3 - Proxy Implementation Walkthrough
-You must set up the nginx proxy on the proxy machine available for this task. You can either use a docker container or run the proxy on the machine directly (called bare-metal).
+# Task 2 - Proxy Implementation Walkthrough
 
-I will first show the solution with docker in part a, and then bare-metal in part b.
+If you perform a `docker ps -a` command on your machine, you'll notice that there is a container called "**CONFIRM THE NGINX CONTAINER NAME**". 
 
-## a. Docker
-Here is the nginx docker image: <https://hub.docker.com/_/nginx/> 
+**INSERT DOCKER PS IMAGE HERE**
 
-You can create the configuration file on your system and link it to the docker container as a volume to /etc/nginx/nginx.conf. In this file, you must define to the proxy how to accept connections and where to forward those connections to. Skip to part c to see what to put in this file.
+Now, for this challenge, we have created the `nginx.conf` configuration on the host machine and have mounted this file into the proxy container (or machine if you'd like to think of it that way) to be used. 
 
-Then you can start the container with: 
+This configuration can be found in the **FIND THE LOCATION ON THE HOST MACHINE WHEN DEPLOYED.**
+The only thing that you need to do is update this file with some specific information and then restart the Docker container (you could also manually reload the nginx config within the container, but it's easier to restart the whole container.)
+
+**INSERT NGINX CONF IN AN LS COMMAND**
+
+
+If you look at the **CONFIRM THAT A NETWORK DIAGRAM EXISTS FOR THIS** network diagram, then you'll notice that this nginx proxy container is on the same docker network as the website container. One neat feature about Docker and docker networks is that it supports DNS. In this case, the hostname of the nginx container is **CONFIRM THE NGINX CONTAINER NAME** and the hostname of the website container is **CONFIRM THE NAME IS WEBSITE or WEB**. And so, this makes the task much simpler as you don't need the IP address.
+
+**HIGHLIGHT THE WEB CONTAINER HOSTNAME**
+
+
+## Modifying the nginx.conf file
+Using the sample provided in the briefing, we simply only need to change the target address in the `proxy_pass` call to match the **hostname** of the web container.
+
 ```
-docker run --name my-nginx --hostname nginx -p 8080:80 \
---volume /path/to/file/on/your/system/nginx.cfg:/etc/nginx/nginx.conf \
---restart always nginx:latest
-```
-The proxy server should work now if you visit its IP address.
+events {}
 
-## b. Bare-metal
-Otherwise, you can simply install it on the proxy machine with `sudo apt install nginx`
-
-You must create the configuration file in `/etc/nginx/sites-enabled/default`
-In this file, you must define to the proxy how to accept connections and where to forward those connections to. Skip to part c to see what to put in this file.
-
-Once your configuration file is complete, run `sudo apt start nginx` to start the proxy server. It should work now.
-
-## c. Configuration file
-```
-# Set the user and group for nginx to run under
-user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log;
-pid /run/nginx.pid;
-
-# Configure the HTTP module
 http {
-  # Define the main server block
   server {
-    # Listen on port 8080 for incoming requests
-    listen 8080;
-  
-    # Redirect requests for hello.com to the backend server
-    if ($host = <WEBSITE NAME>.com) {
-        return 301 http://<BACKEND IP>:80$request_uri;
-    }    
+    listen 9000;
 
-    # Define the proxy settings
     location / {
-      # Proxy all requests to the specified backend server
-      proxy_pass http://<BACKEND IP>:80;
-  
-      # Preserve the original client IP address in the X-Forwarded-For header
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_pass http://website:3000/;
     }
   }
 }
 ```
+
+
+## Restarting the docker container
+After you updated the file and saved it, you can now restart the `CONFIRM THE NGINX CONTAINER NAME` container with the following command: `docker restart CONFIRM THE NGINX CONTAINER NAME`. This will make the proxy take the effects of the updates that you just made and there will now be route to the web container.
+
+
+## Confirmation
+You can confirm this in two ways.
+1. Look at the scoreboard to see if your check is green.
+2. You can use a web browser to navigate to your proxy's IP address. So for example, let's assume your proxy machine's IP address is 192.168.0.219. You can navigate (within a web browser) to http://192.168.0.219:9000. This will be sent to the proxy since it's listening on that port and the proxy pass directive will then forward this request to the web server container using its hostname.
+
+You will have the following output:
+
+![](Images/Proxy-Complete-Webpage.PNG)
+
+
+Congratulations, you now have a route from the outside world to the website via a proxy that you set up!

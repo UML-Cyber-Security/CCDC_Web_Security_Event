@@ -12,8 +12,14 @@ The following are three methods of solving this problem, as we are using contain
 
 ### Docker
 1. Create a docker network (We can just do this on the default network too!) **This may have been done for you**
-    *  docker network create --internal --driver bridge task5
+    *  docker network create --internal --driver bridge web-container
 1. Stop the website container
+    * docker ps 
+    * docker rm -f \<Container-Name/ID\>
+1. Stop the API container
+    * docker ps 
+    * docker rm -f \<Container-Name/ID\>
+1. Stop the SQL container
     * docker ps 
     * docker rm -f \<Container-Name/ID\>
 1. Stop the proxy container
@@ -21,10 +27,17 @@ The following are three methods of solving this problem, as we are using contain
     * docker rm -f \<Container-Name/ID\>
 1. Stop Nginx **ONLY if there is NO Nginx container**
     * sudo systemctl stop nginx
-2. Start the website container. The main difference now is there will be **no** port mappings, and it will be attached to our new network 
-    *  docker run -d --name web-container --network website_proxy_network --hostname web-container \<Container-Image-Name\>
-3. Start the website container. The main difference now is it will be attached to our new network
-    *  docker run -d -p 80:80 -p 443:443 --name proxy-container --network website_proxy_network -v /etc/nginx/conf.d/proxy.conf:/etc/nginx/sites-available/default --hostname proxy-container nginx
+1. Start the website container. The main difference now is there will be **no** port mappings, and it will be attached to our new network 
+    *  docker run -d --name \<web-container-name\> --network website_proxy_network --hostname web-container \<Container-Image-Name\>
+1. Start the API container. The main difference now is there will be **no** port mappings, and it will be attached to our new network 
+    *  docker run -d --name api-server --network website_proxy_network --hostname api-server \<Container-Image-Name\>
+1. Start the API container. The main difference now is there will be **no** port mappings, and it will be attached to our new network 
+    *  docker run -d --name database --network website_proxy_network --hostname database \<Container-Image-Name\>
+1. Start the proxy container. The main difference now is it will be the only container with port mappings and will be attached to our new network
+    *  docker run -d -p 80:80 -p 443:443 --name proxy-container --network website_proxy_network -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf --hostname proxy-container nginx
+
+
+
 
 If the proxy is local we can do the following (It binds to 127.0.0.1)
 1.  Stop the website container

@@ -11,7 +11,7 @@ As with the previous task, this is hopefully quite intuitive. Firewalls allow us
 The following are three methods of solving this problem, as we are using containers using the host-based firewall is a bit more difficult as Docker will create and edit the IPTables configurations on its own. We can implement this isolation using just the objects and options provided by Docker
 
 ### Docker
-1. Create a docker network (We can just do this on the default network too!)
+1. Create a docker network (We can just do this on the default network too!) **This may have been done for you**
     *  docker network create --internal --driver bridge task5
 1. Stop the website container
     * docker ps 

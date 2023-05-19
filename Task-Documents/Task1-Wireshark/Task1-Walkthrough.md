@@ -2,13 +2,13 @@
   
 
 
-** AIM :**
+**AIM :**
   The task is to prove that the credentials entered in the admin part of this page can be captured.
   
-**Tools :**
+**Tools:**
   Wireshark (Installed on your device), tcpdump (needs to be installed), patience.
   
-** Wireshark Implementation **
+**Wireshark Implementation**
 
 Wireshark is a network protocol analyzer, or an application that captures packets from a network connection, such as from your computer to your home office or the internet.
   
@@ -16,7 +16,7 @@ So when communication happen on the browser this wireshark captures those packet
 Here in our task, when user credentials are entered in the admin site these are captured by wireshark and can be viewed by using proper filters.
 As the website is using http, the credentials are communicated unencrypted, due to which once there are captured by the wireshark the attacker can view the actual credentials.
 
-** Procedure **
+**Procedure**
 
  step1: Start wireshark. 
  
@@ -37,14 +37,14 @@ As the website is using http, the credentials are communicated unencrypted, due 
   
   
   
-** tcpdump Implementation **
+**tcpdump Implementation**
 
   Tcpdump is a network packet analyzer which mostly works like the wireshark but tcpdump is cli (command line interface) tool.
   
   Similar to wireshark, even here we filter the collected packets using certain filters but these filter and the capturing process is done by CLI commands.
   
   
-** Procedure **
+**Procedure**
 
   step1: Install tcpdump on your system. In terminal/command prompt enter installation commands 
   

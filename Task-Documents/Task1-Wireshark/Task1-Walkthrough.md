@@ -6,33 +6,49 @@
   The task is to prove that the credentials entered in the admin panel of the webpage can be captured.
   
 ## **Tools:**
-  Wireshark (Installed on your device) or tcpdump (needs to be installed), patience.
+  Wireshark (Installed on the system) or tcpdump (Installed on the system), patience.
   
 ## **Wireshark Implementation**
 
 Wireshark is a network protocol analyzer, or an application that captures packets from a network connection, such as from your computer to your home office or the internet.
   
-So when the communication happens between the client(your browser) and server (webpage), the wireshark tool captures those network packets which can be analyzed.
-Here in our task, when user credentials are entered in the admin site these are captured by wireshark and can be viewed by using appropriate filters.
-As the website is using http, the credentials are being sent over the network unencrypted, due to which once there are captured by the wireshark the attacker can view the actual credentials in plain-text.
+So when the communication happens between the client(your browser) and server (webpage), the Wireshark tool captures those network packets which can be analyzed.
+Here in our task, when user credentials are entered in the admin site these are captured by Wireshark and can be viewed by using appropriate filters.
+As the website is using http, the credentials are being sent over the network unencrypted, due to which once there are captured by the Wireshark the attacker can view the actual credentials in plain-text.
 
 ### **Procedure**
 
- Step1: Open Wireshark and select the network interface you want to listen on. Once selected, click on *Capture* and Wiresharkwill start sniffing network packets.
- 
- Step2: In your broswer, add "/admin" at the end of the current url to open the admin site, where you can see placeholders for the credentials.
- 
+Step0: Open Wireshark, this can be done using the terminal, or the application finder. Both methods are shown below
+<p float="left">
+  <img src="Images/WS-OpenTerm.png" width="300" />
+  <img src="Images/WS-OpenFind.png" width="300" /> 
+</p>
+
+ Step1: Select the network interface you want to listen on. Once selected, click on *Capture* and Wireshark will start sniffing network packets. We can select **eth0** or to be safe **any** as shown below by double clicking the interface.
+<p float="left">
+  <img src="Images/WS-Select.png" width="600" />
+</p>
+ Step2: In your browser, add "/admin" at the end of the current url to open the admin site, where you can see placeholders for the credentials.
+ <p float="left">
+  <img src="Images/BT-Admin.png" width="600" />
+</p>
  Step3: Wireshark in the background will be capturing the data packets, now enter the login credentials in the admin page.
  
- Step4: Stop the capturing process in the wireshark. As wireshark captures every data packet it is obivious the output is overwhelming.
+ Step4: Stop the capturing process in the Wireshark. As Wireshark captures every data packet it is obvious the output is overwhelming.
  
- Step5: Now to fetch necessary data (credentials in our case) from that heap, wireshark filters need to used.
+ Step5: To find the necessary data (credentials in our case) from that heap, Wireshark filters need to be used.
  
- Step6: There are several different filters that can be used to eliminate unnecessary data from the generated output. Few easy examples of those filters are, using protocol name (http), using source ip ().
- 
+ Step6: There are several different filters that can be used to eliminate unnecessary data from the generated output. A few easy examples of those filters are, using protocol name (http, telnet, ssh), using source ip (ip.src == X.X.X.X) and destination ip (ip.dst == X.X.X.X) to name a few. Below we show captures of HTTP and Telnet traffic.
+ <p float="left">
+  <img src="Images/WS-HTTP.png" width="300" />
+  <img src="Images/WS-Telnet.png" width="300" />
+ </p>
  Step7: The filtered output will be relatively less complex. When a packet is selected, at the bottom, detailed information about the packet is given. Look for the packets which send login information and expand it to learn more about the data being sent out/received. Unencrypted user credentials are available in one of these packets.
   
-  This proves that, a http website transfers unencrypted data and if a attacker captures these packets plain text data is leaked.
+This proves that, a http website transfers unencrypted data and if a attacker captures these packets plain text data is leaked.
+
+
+**You should search through telnet traffic for a username and password you can use**.
   
   
   

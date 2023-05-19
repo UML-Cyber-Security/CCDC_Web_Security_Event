@@ -54,6 +54,7 @@
       community.docker.docker_container:
         image: daintyjet/webday-site-image 
         name: web-site
+        hostname: web-site
         pull: true
         state: started
         published_ports:
@@ -65,6 +66,7 @@
       community.docker.docker_container:
         image: daintyjet/webday-sql-image 
         name: database
+        hostname: database
         pull: true
         networks:
           - name: website_proxy_network
@@ -75,6 +77,7 @@
       community.docker.docker_container:
         image: daintyjet/webday-api-image 
         name: api-server
+        hostname: api-server
         pull: true
         networks:
           - name: website_proxy_network
@@ -83,6 +86,7 @@
       community.docker.docker_container:
         image: nginx
         name: proxy
+        hostname: proxy
         pull: true
         networks:
           - name: website_proxy_network

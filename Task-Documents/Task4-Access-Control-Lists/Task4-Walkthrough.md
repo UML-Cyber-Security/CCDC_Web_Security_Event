@@ -33,7 +33,7 @@ http {
   server {
     # Listen on port 8080 for incoming requests
     listen 80;
-
+    server_name  <insert_url_here>; # Example www.team6.umlcyber.club
     location / {
         proxy_pass http://<hostname/IP:PORT> # Example  http://127.0.0.1:8080 or  http://web-container:8080
 
@@ -79,7 +79,7 @@ http {
   server {
     # Listen on port 80 for incoming requests
     listen 80;
-
+    server_name  <insert_url_here>; # Example www.team6.umlcyber.club
     # Modify the information contained in the packet so the backend server will log the correct information
     proxy_set_header        Host            $host; 
     proxy_set_header        X-Real-IP       $remote_addr;

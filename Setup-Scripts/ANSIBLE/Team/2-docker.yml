@@ -33,7 +33,7 @@
         - Web container
         - DB container
         - API container
-        - Pull proxy
+        - Proxy container
         - User Config
   handlers:
     # Install Docker python packages
@@ -52,41 +52,45 @@
     # Create and start the web container (running on 
     - name: Web container
       community.docker.docker_container:
-        image: nginx # Change to be site once container is uploaded
+        image: daintyjet/webday-site-image 
         name: web-site
         pull: true
         state: started
         published_ports:
-          - "8080:80"
+          - "8080:3000"
         networks:
           - name: website_proxy_network
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-          - portainer_data:/data 
-    # Bernal made the container use a database (Placeholder)
+    # Bernal made the container use a database 
     - name: DB container
       community.docker.docker_container:
-        image: postgres # Change to be site once container is uploaded
-        name: postgres-db
+        image: daintyjet/webday-sql-image 
+        name: database
         pull: true
         networks:
           - name: website_proxy_network
         state: started
         #volumes:
-    # Bernal made the container use a API server (Placeholder)
+    # Bernal made the container use a API server 
     - name: API container
       community.docker.docker_container:
-        image: nginx # Change to be site once container is uploaded
-        name: api-web-db
+        image: daintyjet/webday-api-image 
+        name: api-server
         pull: true
         networks:
           - name: website_proxy_network
         state: started
-        #volumes:
-    - name: Pull proxy
-      community.docker.docker_image:
-        name: nginx # Pull image for the proxy
-        source: pull
+    - name: Proxy container
+      community.docker.docker_container:
+        image: nginx
+        name: proxy
+        pull: true
+        networks:
+          - name: website_proxy_network
+        state: started
+        published_ports:
+          - "80:80"
+        volumes:
+          - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
     - name: User Config
       ansible.builtin.shell: | 
         usermod -aG docker manager

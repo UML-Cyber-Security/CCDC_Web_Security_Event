@@ -1,8 +1,8 @@
 # Task 1 - Wireshark Walkthrough    
-# Task 1 - Wireshark Walkthrough    
+  
 
 
-**AIM :**
+** AIM :**
   The task is to prove that the credentials entered in the admin part of this page can be captured.
   
 **Tools :**
@@ -41,18 +41,20 @@ As the website is using http, the credentials are communicated unencrypted, due 
 ** Procedure **
 
   step1: Install tcpdump on your system. In terminal/command prompt enter installation commands 
+  
                                   sudo apt-get update
                                   sudo apt-get install tcpdump
   
   step2: Just like in wireshark, where we select which interface to work on, even in tcpdump interface needs to be mentioned before the process starts.
   to see the list of interfaces that are elibible to list use the command:
+  
                                   sudo tcpdump -D
                                   
   step3: Without using proper filters the output given by tcpdump will be closely impossible to understand. To avoid this the ideal way is to mention certain things like, port number, protocol, source ip, destination ip. 
                               
                                   sudo tcpdump -i all -A port 8000
-  This command runs using sudo privilages. where 
-  
+                                  
+  This command runs using sudo privilages. where:
                                                 -i all says to listen on app interfaces, in place of all proper interface can be used to reduce complexity.
                                                 -A Prints the packet contents as ASCII text. This allows you to see the HTTP payload data in a readable format.
                                                 port 8000 role is to listen on 8000 port. 

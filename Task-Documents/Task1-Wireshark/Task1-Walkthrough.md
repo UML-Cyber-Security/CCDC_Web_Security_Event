@@ -19,11 +19,17 @@ As the website is using http, the credentials are communicated unencrypted, due 
 ** Procedure **
 
  step1: Start wireshark. 
+ 
  step2: Add "/admin" at the end of the current url to open the admin site, where you can see placeholders for the credentials.
+ 
  step3: Wireshark in the background will be capturing the data packets, now enter the login credentials in the admin page.
+ 
  step4: Stop the capturing process in the wireshark. As wireshark captures every data packet its obivious the output is overwhelming.
+ 
  step5: Now to fetch necessary data (credentials in our case) from that heap, wireshark filters need to used.
+ 
  step6: There are several different filters that can be used to eliminate unnecessary data from the generated output. Few easy examples of those filters are, using protocol name (http), using source ip ().
+ 
  step7: The filtered output will be relatively less complex. When a packet is selected, at the bottom, detailed information about the packet is given. Unencrypted user credentials are available in one of these lines.
   
   This proves that, a http website transfers unencrypted data and if a attacker captures these packets plain text data is leaked.

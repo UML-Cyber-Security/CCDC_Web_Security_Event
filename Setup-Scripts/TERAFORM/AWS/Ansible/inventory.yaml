@@ -1,22 +1,23 @@
 [teams]
-44.211.58.92 ansible_user=ubuntu
-34.201.23.52 ansible_user=ubuntu
-34.239.233.187   ansible_user=ubuntu
-44.198.192.116  ansible_user=ubuntu
-44.193.201.223 ansible_user=ubuntu
-44.197.248.242 ansible_user=ubuntu
-34.201.26.48 ansible_user=ubuntu
-3.239.213.253 ansible_user=ubuntu
-34.232.44.46 ansible_user=ubuntu
-3.237.241.203 ansible_user=ubuntu
-34.200.221.112 ansible_user=ubuntu
-3.219.168.66 ansible_user=ubuntu
-75.101.189.68 ansible_user=ubuntu
-3.238.44.1 ansible_user=ubuntu
-3.239.79.25 ansible_user=ubuntu
-3.237.191.117 ansible_user=ubuntu
-44.197.180.214 ansible_user=ubuntu
-44.200.161.149 ansible_user=ubuntu
-3.239.199.12 ansible_user=ubuntu
-3.235.93.149 ansible_user=ubuntu
+
+  44.202.108.202 ansible_user=ubuntu
+  54.237.194.87 ansible_user=ubuntu
+  3.87.48.203 ansible_user=ubuntu
+  54.89.63.252 ansible_user=ubuntu
+  54.160.8.169 ansible_user=ubuntu
+  3.83.222.85 ansible_user=ubuntu
+  54.175.148.17 ansible_user=ubuntu
+  54.166.226.91 ansible_user=ubuntu
+  3.95.191.172 ansible_user=ubuntu
+  52.90.57.59 ansible_user=ubuntu
+  44.202.113.94 ansible_user=ubuntu
+  44.202.218.140 ansible_user=ubuntu
+  44.201.194.228 ansible_user=ubuntu
+  44.211.81.90 ansible_user=ubuntu
+  34.204.3.80 ansible_user=ubuntu
+  44.211.211.243 ansible_user=ubuntu
+  18.208.109.181 ansible_user=ubuntu
+  54.205.65.10 ansible_user=ubuntu
+  3.91.214.30 ansible_user=ubuntu
+  34.238.117.1 ansible_user=ubuntu
 

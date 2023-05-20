@@ -1,0 +1,12 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: copy
+      ansible.builtin.copy:
+        src: sshd_config
+        dest: /etc/ssh/sshd_config
+
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted

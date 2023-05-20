@@ -19,7 +19,7 @@ events {}
 
 http {
   server {
-    listen 9000;
+    listen 80;
     server_name teamX.umlcyber.club;
 
     location / {

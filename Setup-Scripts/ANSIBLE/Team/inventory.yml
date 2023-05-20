@@ -1,4 +1,22 @@
-blueteam:
-  hosts:
-    vm1:
-      ansible_host: 35.86.91.3
+[blueteam]
+
+18.206.125.96  ansible_user=ubuntu
+54.235.229.60 ansible_user=ubuntu
+52.202.109.175 ansible_user=ubuntu
+34.207.193.61 ansible_user=ubuntu
+3.94.85.228 ansible_user=ubuntu
+35.171.20.26 ansible_user=ubuntu
+44.202.159.76 ansible_user=ubuntu
+44.202.52.130 ansible_user=ubuntu
+54.175.252.4 ansible_user=ubuntu
+54.158.210.14 ansible_user=ubuntu
+52.73.235.249 ansible_user=ubuntu
+34.201.136.5 ansible_user=ubuntu
+44.201.144.235 ansible_user=ubuntu
+3.92.61.216 ansible_user=ubuntu
+18.204.21.132 ansible_user=ubuntu
+54.209.213.118 ansible_user=ubuntu
+54.161.239.117 ansible_user=ubuntu
+44.205.250.234 ansible_user=ubuntu
+3.80.209.206 ansible_user=ubuntu
+3.84.131.173 ansible_user=ubuntu

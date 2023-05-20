@@ -1,6 +1,6 @@
 # Task 2 - Proxy Implementation Walkthrough
 
-If you perform a `docker ps -a` command on your machine, you'll notice that there is a container called "**CONFIRM THE NGINX CONTAINER NAME**". 
+If you perform a `docker ps -a` command on your machine, you'll notice that there is a container called "proxy". 
 
 **INSERT DOCKER PS IMAGE HERE**
 
@@ -12,7 +12,7 @@ The only thing that you need to do is update this file with some specific inform
 **INSERT NGINX CONF IN AN LS COMMAND**
 
 
-If you look at the **CONFIRM THAT A NETWORK DIAGRAM EXISTS FOR THIS** network diagram, then you'll notice that this nginx proxy container is on the same docker network as the website container. One neat feature about Docker and docker networks is that it supports DNS. In this case, the hostname of the nginx container is **CONFIRM THE NGINX CONTAINER NAME** and the hostname of the website container is **CONFIRM THE NAME IS WEBSITE or WEB**. And so, this makes the task much simpler as you don't need the IP address.
+If you look at the **CONFIRM THAT A NETWORK DIAGRAM EXISTS FOR THIS** network diagram, then you'll notice that this nginx proxy container is on the same docker network as the website container. One neat feature about Docker and docker networks is that it supports DNS. In this case, the hostname of the nginx container is proxy and the hostname of the website container is "website". And so, this makes the task much simpler as you don't need the IP address.
 
 **HIGHLIGHT THE WEB CONTAINER HOSTNAME**
 
@@ -26,9 +26,10 @@ events {}
 http {
   server {
     listen 9000;
+    server_name teamX.umlcyber.club;
 
     location / {
-      proxy_pass http://website:3000/;
+      proxy_pass http://web-site:3000/;
     }
   }
 }
@@ -36,17 +37,19 @@ http {
 
 
 ## Restarting the docker container
-After you updated the file and saved it, you can now restart the `CONFIRM THE NGINX CONTAINER NAME` container with the following command: `docker restart CONFIRM THE NGINX CONTAINER NAME`. This will make the proxy take the effects of the updates that you just made and there will now be route to the web container.
+After you updated the file and saved it, you can now restart the `proxy` container with the following command: `docker restart proxy`. This will make the proxy take the effects of the updates that you just made and there will now be route to the web container.
 
 
 ## Confirmation
 You can confirm this in two ways.
 1. Look at the scoreboard to see if your check is green.
-2. You can use a web browser to navigate to your proxy's IP address. So for example, let's assume your proxy machine's IP address is 192.168.0.219. You can navigate (within a web browser) to http://192.168.0.219:9000. This will be sent to the proxy since it's listening on that port and the proxy pass directive will then forward this request to the web server container using its hostname.
+2. You can use a web browser to navigate to your proxy's IP address. So for example, let's assume your proxy machine's IP address is 192.168.0.219 and the port we want to have this accessible is 9000. You can navigate (within a web browser) to http://192.168.0.219:9000. This will be sent to the proxy since it's listening on that port and the proxy pass directive will then forward this request to the web server container using its hostname.
 
 You will have the following output:
 
 ![](Images/Proxy-Complete-Webpage.PNG)
+
+Your website should be available now through http://teamX.umlcyber.club; where X is your team number.
 
 
 Congratulations, you now have a route from the outside world to the website via a proxy that you set up!

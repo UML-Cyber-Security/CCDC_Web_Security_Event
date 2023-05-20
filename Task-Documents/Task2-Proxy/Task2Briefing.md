@@ -27,6 +27,7 @@ events {}
 http {
     server {
         listen 80;
+        server_name my_server.com
         location / {
             proxy_pass http://my_server/;
         }
@@ -36,3 +37,6 @@ http {
 ```
 
 The admins didn't provide any helpful comments unfortunately.
+
+
+***YOU MUST USE THE DOMAIN NAME teamX.umlcyber.club . Replace X with your team number!***

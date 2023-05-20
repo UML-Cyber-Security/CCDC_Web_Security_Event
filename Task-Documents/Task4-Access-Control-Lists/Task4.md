@@ -1,5 +1,5 @@
 # Task 4 - Access Control Lists
-Now that you have configured our site to utilize Transport Layer Security (TLS), and greatly improved the security of our operations we have some additional concerns. We have noticed some unusual traffic directed to our **/admin** page. As this page can be used to manage, and configure our web site, we would like to restrict the access to this page. Our management group will require access to this page, and we have been informed they will utilize a machine with the IP 10.0.1.10 when they attempt to access the admin page. The local administrators on the machine hosting the server will also need access to preform routine checks.
+Now that you have configured our site to utilize Transport Layer Security (TLS), and greatly improved the security of our operations we have some additional concerns. We have noticed some unusual traffic directed to our **/admin** page. As this page can be used to manage, and configure our web site, we would like to restrict the access to this page. Our management group will require access to this page, and we have been informed they will utilize a machine with the IP 18.212.252.110 when they attempt to access the admin page. The local administrators on the machine hosting the server will also need access to preform routine checks.
 
 The previous developers managing the site were absent minded at times, and may have pushed some unfinished or vulnerable pages to our repository. Feel free to block them if you do find them. 
 
@@ -8,7 +8,7 @@ Again, the previous group did not produce the most comprehensive documentation w
 ## Expected Outcome
 1. Limit access to the **/admin** page
 1. Allow the management group access
-   * They are using a machine with an IP of 10.0.1.10
+   * They are using a machine with an IP of 18.212.252.110
 2. Allow the local administrator (using the machine hosting the site) access
 3. Limit access to any unfinished or testing pages that are found
 

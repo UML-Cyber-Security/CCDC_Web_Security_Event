@@ -2,19 +2,13 @@
 
 If you perform a `docker ps -a` command on your machine, you'll notice that there is a container called "proxy". 
 
-**INSERT DOCKER PS IMAGE HERE**
 
 Now, for this challenge, we have created the `nginx.conf` configuration on the host machine and have mounted this file into the proxy container (or machine if you'd like to think of it that way) to be used. 
 
 This configuration can be found in the **FIND THE LOCATION ON THE HOST MACHINE WHEN DEPLOYED.**
 The only thing that you need to do is update this file with some specific information and then restart the Docker container (you could also manually reload the nginx config within the container, but it's easier to restart the whole container.)
 
-**INSERT NGINX CONF IN AN LS COMMAND**
-
-
 If you look at the **CONFIRM THAT A NETWORK DIAGRAM EXISTS FOR THIS** network diagram, then you'll notice that this nginx proxy container is on the same docker network as the website container. One neat feature about Docker and docker networks is that it supports DNS. In this case, the hostname of the nginx container is proxy and the hostname of the website container is "website". And so, this makes the task much simpler as you don't need the IP address.
-
-**HIGHLIGHT THE WEB CONTAINER HOSTNAME**
 
 
 ## Modifying the nginx.conf file

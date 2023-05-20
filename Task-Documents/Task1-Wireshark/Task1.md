@@ -1,7 +1,8 @@
 # Task 1 - Wireshark     
+In this scenario,
+Your IT administrator has been bribed and fled the country. He has changed all of the passwords on his way out the door, so we have completely lost all access to our systems. You must break your way back onto the network, and continue securing it. 
 
-Type1:
-The "website name" is still communicating with HTTP. This protocol is known to have a vulnerability that lets an attacker sniff user id and password. Find a way to exploit this vulnerability by capturing the credentials once entered in the website. Additionally we cannot give you the password to the manager account, as we have lost it. You may be able to capture it as we have detected some logins.
+The "Bait & Tackle Bazzar" is still communicating with HTTP. This protocol is known to have a vulnerability that lets an attacker sniff user id and password. Find a way to exploit this vulnerability by capturing the credentials once entered in the website. Additionally we cannot give you the password to the manager account, as we have lost it. You may be able to capture it as we have detected some automated logins.
 
 ## Expected Outcome  
 * Access the remote machine using rdp
@@ -16,12 +17,7 @@ The "website name" is still communicating with HTTP. This protocol is known to h
     * FSTPS
     * HTTP
     * Telnet
+    * PHD
     * Telephone
     * rsh
 * Login to Manager Account
-
-Type2:
-The credentials of every user who's logging into "website name" are being leaked, the attackers are using some techniques or tools to perfrom man in the middle attack and are getting the user id and password. Find the methods which these attackers are using to do this. (hint: problem with the protocol)
-
-
-

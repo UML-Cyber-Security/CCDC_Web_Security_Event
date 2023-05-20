@@ -1,0 +1,9 @@
+#name: BlueTeam_Initial_Setup
+- hosts: cyber
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: copy
+      ansible.builtin.copy:
+        src: /home/daintyjet/pdfs
+        dest: /home/student1/pdfs

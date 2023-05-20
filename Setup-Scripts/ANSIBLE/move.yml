@@ -5,5 +5,6 @@
   tasks:
     - name: copy
       ansible.builtin.copy:
-        src: /home/daintyjet/pdfs
-        dest: /home/student1/pdfs
+        remote_src: True
+        src: /home/student1/pdfs
+        dest: /home/student1/Desktop/pdfs
